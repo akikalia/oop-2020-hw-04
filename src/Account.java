@@ -20,5 +20,21 @@ public class Account {
 		this.balance = balance;
 		transactions = 0;
 	}
-	
+
+	public int getBalance() {
+		return balance;
+	}
+
+	public synchronized void subtract(int amount){
+		transactions++;
+		balance -= amount;
+	}
+
+	public synchronized void add(int amount){
+		transactions++;
+		balance += amount;
+	}
+	public String toString(){
+		return "acct:"+ id +" bal:" + balance + " trans:" + transactions;
+	}
 }

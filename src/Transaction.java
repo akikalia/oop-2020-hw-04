@@ -15,6 +15,18 @@ public class Transaction {
 		this.amount = amount;
 	}
 
+	public int getFrom(){
+		return from;
+	}
+
+	public int getTo(){
+		return to;
+	}
+
+	public int getAmount(){
+		return amount;
+	}
+
 	public String toString() {
 		return("from:" + from + " to:" + to + " amt:" + amount);
 	}
