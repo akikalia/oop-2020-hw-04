@@ -72,32 +72,27 @@ public class Bank {
          Reads transaction data (from/to/amt) from a file for processing.
          (provided code)
          */
-	public void readFile(String file) {
-			try {
-				BufferedReader reader = new BufferedReader(new FileReader(file));
+	public void readFile(String file) throws Exception {
+			BufferedReader reader = new BufferedReader(new FileReader(file));
 
-				// Use stream tokenizer to get successive words from file
-				StreamTokenizer tokenizer = new StreamTokenizer(reader);
+			// Use stream tokenizer to get successive words from file
+			StreamTokenizer tokenizer = new StreamTokenizer(reader);
 
-				while (true) {
-					int read = tokenizer.nextToken();
-					if (read == StreamTokenizer.TT_EOF) break;  // detect EOF
-					int from = (int)tokenizer.nval;
+			while (true) {
+				int read = tokenizer.nextToken();
+				if (read == StreamTokenizer.TT_EOF) break;  // detect EOF
+				int from = (int)tokenizer.nval;
 
-					tokenizer.nextToken();
-					int to = (int)tokenizer.nval;
+				tokenizer.nextToken();
+				int to = (int)tokenizer.nval;
 
-					tokenizer.nextToken();
-					int amount = (int)tokenizer.nval;
+				tokenizer.nextToken();
+				int amount = (int)tokenizer.nval;
 
-					// Use the from/to/amount
+				// Use the from/to/amount
 
-					// YOUR CODE HERE
-					queue.put(new Transaction(from, to, amount));
-				}
-			}
-			catch (Exception e) {
-				exitErr(e);
+				// YOUR CODE HERE
+				queue.put(new Transaction(from, to, amount));
 			}
 	}
 
@@ -119,13 +114,13 @@ public class Bank {
 	public void processFile(String file, int numWorkers) {
 		latch = new CountDownLatch(numWorkers);
 		createWorkers(numWorkers);
-		readFile(file);
 		try {
+		readFile(file);
 			for (int i = 0; i < numWorkers; i++) {
 					queue.put(nullTrans);
 			}
 			latch.await();
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
 			exitErr(e);
 		}
 
@@ -148,7 +143,7 @@ public class Bank {
 	public static void main(String[] args) {
 		// deal with command-lines args
 		if (args.length == 0) {
-			System.exit(1);
+			return;
 		}
 		
 		String file = args[0];

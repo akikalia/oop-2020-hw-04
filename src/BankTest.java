@@ -11,8 +11,12 @@ public class BankTest {
 
         String [] argv1={"small.txt"};
         String [] argv2={"small.txt","0"};
+        String [] argv3=new String[0];
+
         Bank.main(argv1);
         Bank.main(argv2);
+        Bank.main(argv3);
+
     }
 
     @Test
