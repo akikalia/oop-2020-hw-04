@@ -5,9 +5,23 @@ import java.util.Date;
 import javax.swing.*;
 
 public class WebWorker extends Thread {
-/*
-  This is the core web/download i/o code...
- 	download() {
+    private String urlString;
+    private WebFrame frame;
+    private int row;
+    public WebWorker(String urlString, int row, WebFrame frame){
+        this.urlString = urlString;
+        this.row = row;
+        this.frame = frame;
+    }
+
+    public void run(){
+        frame.acquireWorker();
+        frame.releaseWorker(download(), row);
+    }
+
+ 	public String download() {
+        int size = 0;
+        long started = System.currentTimeMillis();
 		InputStream input = null;
 		StringBuilder contents = null;
 		try {
@@ -29,15 +43,18 @@ public class WebWorker extends Thread {
 			while ((len = reader.read(array, 0, array.length)) > 0) {
 				contents.append(array, 0, len);
 				Thread.sleep(100);
+				size += len;
 			}
-			
+			long finished = System.currentTimeMillis();
+            return new SimpleDateFormat("HH:mm:ss").format(new Date(finished)) + "  "
+                    + (finished - started) + "ms  " +size+"bytes";
 			// Successful download if we get here
 			
 		}
 		// Otherwise control jumps to a catch...
 		catch(MalformedURLException ignored) {}
 		catch(InterruptedException exception) {
-			// YOUR CODE HERE
+            return "InterruptedException";
 			// deal with interruption
 		}
 		catch(IOException ignored) {}
@@ -47,9 +64,9 @@ public class WebWorker extends Thread {
 			try{
 				if (input != null) input.close();
 			}
-			catch(IOException ignored) {}
+			catch(IOException ignored) { }
+        }
+		return "error occured";
 		}
-
-*/
 	
 }
